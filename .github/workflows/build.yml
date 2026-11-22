@@ -126,10 +126,11 @@ jobs:
             -DLLAMA_CURL=OFF \
             -DLLAMA_OPENSSL=OFF \
             -DLLAMA_BUILD_TOOLS=ON \
-            -DLLAMA_BUILD_EXAMPLES=ON \
             -DLLAMA_BUILD_TESTS=OFF \
             -DGGML_BUILD_TESTS=OFF \
-            -DLLAMA_BUILD_SERVER=OFF
+            -DLLAMA_BUILD_SERVER=OFF \
+            -DLLAMA_BUILD_APP=OFF \
+            -DLLAMA_BUILD_EXAMPLES=OFF \
 
       - name: Build
         run: cmake --build llama.cpp/build-android -j$(nproc)

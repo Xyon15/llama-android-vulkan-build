@@ -106,21 +106,30 @@ jobs:
         run: |
           KHDR="-I$GITHUB_WORKSPACE/Vulkan-Headers/include -I$GITHUB_WORKSPACE/SPIRV-Headers/include"
           cd llama.cpp
+          rm -rf build-android
+
           cmake -B build-android -G Ninja \
             -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/cmake/android-vulkan-toolchain.cmake \
-            -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-28 \
+            -DANDROID_ABI=arm64-v8a \
+            -DANDROID_PLATFORM=android-28 \
             -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_C_FLAGS="$KHDR" -DCMAKE_CXX_FLAGS="$KHDR" \
-            -DCMAKE_INSTALL_RPATH='$ORIGIN' -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
-            -DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=armv8.2-a+dotprod \
-            -DGGML_VULKAN=ON -DVulkan_INCLUDE_DIR=$GITHUB_WORKSPACE/Vulkan-Headers/include \
-            -DGGML_OPENMP=OFF -DGGML_BACKEND_DL=ON \
+            -DCMAKE_C_FLAGS="$KHDR" \
+            -DCMAKE_CXX_FLAGS="$KHDR" \
+            -DCMAKE_INSTALL_RPATH='$ORIGIN' \
+            -DCMAKE_BUILD_WITH_INSTALL_RPATH=ON \
+            -DGGML_NATIVE=OFF \
+            -DGGML_CPU_ARM_ARCH=armv8.2-a+dotprod \
+            -DGGML_VULKAN=ON \
+            -DVulkan_INCLUDE_DIR=$GITHUB_WORKSPACE/Vulkan-Headers/include \
+            -DGGML_OPENMP=OFF \
+            -DGGML_BACKEND_DL=ON \
             -DLLAMA_CURL=OFF \
             -DLLAMA_OPENSSL=OFF \
             -DLLAMA_BUILD_TOOLS=ON \
-            -DLLAMA_BUILD_SERVER=OFF \
-            -DLLAMA_BUILD_UI=OFF \
-            -DLLAMA_USE_PREBUILT_UI=OFF
+            -DLLAMA_BUILD_EXAMPLES=ON \
+            -DLLAMA_BUILD_TESTS=OFF \
+            -DGGML_BUILD_TESTS=OFF \
+            -DLLAMA_BUILD_SERVER=OFF
 
       - name: Build
         run: cmake --build llama.cpp/build-android -j$(nproc)

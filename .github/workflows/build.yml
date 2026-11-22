@@ -115,7 +115,12 @@ jobs:
             -DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=armv8.2-a+dotprod \
             -DGGML_VULKAN=ON -DVulkan_INCLUDE_DIR=$GITHUB_WORKSPACE/Vulkan-Headers/include \
             -DGGML_OPENMP=OFF -DGGML_BACKEND_DL=ON \
-            -DLLAMA_CURL=OFF -DLLAMA_OPENSSL=OFF -DLLAMA_BUILD_SERVER=ON
+            -DLLAMA_CURL=OFF \
+            -DLLAMA_OPENSSL=OFF \
+            -DLLAMA_BUILD_TOOLS=ON \
+            -DLLAMA_BUILD_SERVER=OFF \
+            -DLLAMA_BUILD_UI=OFF \
+            -DLLAMA_USE_PREBUILT_UI=OFF
 
       - name: Build
         run: cmake --build llama.cpp/build-android -j$(nproc)
